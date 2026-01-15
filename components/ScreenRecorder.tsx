@@ -22,22 +22,32 @@ export default function ScreenRecorder({ onRecordingComplete }: ScreenRecorderPr
     const [recordingDuration, setRecordingDuration] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const streamRef = useRef<MediaStream | null>(null);
+    const effectiveStartTimeRef = useRef<number | null>(null);
+    const pauseTimeRef = useRef<number | null>(null);
     const videoPreviewRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
         return () => {
-            if (state.stream) {
-                state.stream.getTracks().forEach(track => track.stop());
+            if (streamRef.current) {
+                streamRef.current.getTracks().forEach(track => track.stop());
+                streamRef.current = null;
             }
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
+                intervalRef.current = null;
             }
         };
-    }, [state.stream]);
+    }, []);
 
     const startRecording = async () => {
         try {
             setError(null);
+
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
 
             // Request screen + audio
             const displayStream = await navigator.mediaDevices.getDisplayMedia({
@@ -63,6 +73,7 @@ export default function ScreenRecorder({ onRecordingComplete }: ScreenRecorderPr
             ];
 
             const combinedStream = new MediaStream(tracks);
+            streamRef.current = combinedStream;
 
             // Create MediaRecorder
             const recorder = new MediaRecorder(combinedStream, {
@@ -79,7 +90,7 @@ export default function ScreenRecorder({ onRecordingComplete }: ScreenRecorderPr
 
             recorder.onstop = () => {
                 const blob = new Blob(chunks, { type: 'video/webm' });
-                const duration = Date.now() - (state.startTime || Date.now());
+                const duration = Date.now() - (effectiveStartTimeRef.current ?? Date.now());
                 onRecordingComplete(blob, duration / 1000);
 
                 // Show preview
@@ -93,6 +104,8 @@ export default function ScreenRecorder({ onRecordingComplete }: ScreenRecorderPr
             // Reset and start timer
             setRecordingDuration(0); // Reset to 0
             const startTime = Date.now();
+            effectiveStartTimeRef.current = startTime;
+            pauseTimeRef.current = null;
 
             console.log('🎬 Starting timer at:', new Date(startTime).toLocaleTimeString());
 
@@ -131,12 +144,18 @@ export default function ScreenRecorder({ onRecordingComplete }: ScreenRecorderPr
                 state.mediaRecorder.resume();
 
                 // Resume timer - adjust start time to account for paused duration
-                const pausedDuration = Date.now() - (state.pauseTime || Date.now());
-                const newStartTime = (state.startTime || Date.now()) + pausedDuration;
+                const pausedDuration = Date.now() - (pauseTimeRef.current ?? Date.now());
+                const newStartTime = (effectiveStartTimeRef.current ?? Date.now()) + pausedDuration;
+                effectiveStartTimeRef.current = newStartTime;
+                pauseTimeRef.current = null;
 
                 console.log('⏱️ Resuming timer. Paused for:', pausedDuration, 'ms');
 
                 // Restart interval
+                if (intervalRef.current) {
+                    clearInterval(intervalRef.current);
+                    intervalRef.current = null;
+                }
                 intervalRef.current = setInterval(() => {
                     const elapsed = Math.floor((Date.now() - newStartTime) / 1000);
                     console.log('⏱️ Timer update (resumed):', elapsed);
@@ -156,7 +175,9 @@ export default function ScreenRecorder({ onRecordingComplete }: ScreenRecorderPr
                     console.log('⏸️ Timer paused');
                 }
 
-                setState({ ...state, isPaused: true, pauseTime: Date.now() });
+                const now = Date.now();
+                pauseTimeRef.current = now;
+                setState({ ...state, isPaused: true, pauseTime: now });
             }
         }
     };
@@ -165,9 +186,13 @@ export default function ScreenRecorder({ onRecordingComplete }: ScreenRecorderPr
         if (state.mediaRecorder && state.stream) {
             state.mediaRecorder.stop();
             state.stream.getTracks().forEach(track => track.stop());
+            streamRef.current = null;
+            effectiveStartTimeRef.current = null;
+            pauseTimeRef.current = null;
 
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
+                intervalRef.current = null;
             }
 
             setState({
