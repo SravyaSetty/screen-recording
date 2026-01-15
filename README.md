@@ -67,11 +67,23 @@ screen-recording/
 └── tsconfig.json           # TypeScript configuration
 ```
 
-## Getting Started
+## Architecture Decisions
+
+- **Next.js App Router**: Routes map cleanly to the product flows (`/`, `/videos`, `/watch/[id]`) while keeping the UI as React components.
+- **Client-side recording**: Uses the browser MediaRecorder APIs to avoid any server dependency during capture.
+- **Client-side trimming (FFmpeg.wasm)**: Keeps trimming private (no upload required) and works as a self-contained MVP.
+- **Cross-origin isolation headers (COOP/COEP)**: Enabled in `next.config.ts` to support FFmpeg.wasm runtime requirements in modern browsers.
+- **Mock storage + analytics via `localStorage`**: Simple persistence for an MVP without a backend. This also makes demo/testing easy.
+
+## Setup Instructions
 
 ### Prerequisites
 - Node.js 18+ 
 - npm or yarn
+
+### Browser Requirements
+- **Recommended**: Chrome or Edge (best MediaRecorder + WebM codec support)
+- **Notes**: Some browsers may not support the chosen recording `mimeType` (`video/webm;codecs=vp9`).
 
 ### Installation
 
@@ -93,6 +105,10 @@ npm run dev
 npm run build
 npm start
 ```
+
+### Common Setup Issues
+- If trimming fails to load, confirm the app is serving the **COOP/COEP headers** from `next.config.ts` (required for FFmpeg.wasm in many setups).
+- If microphone capture is missing, check the browser permission prompt and OS audio input permissions.
 
 ## Usage
 
@@ -182,6 +198,29 @@ await prisma.analytics.create({
   },
 });
 ```
+
+## What I’d Improve for Production
+
+### Storage & Delivery
+- Move video blobs from `localStorage` to **object storage** (S3 / R2) with signed URLs.
+- Use **streaming-friendly delivery** (HLS/DASH) for large videos and faster playback start.
+- Generate **thumbnails** and basic metadata server-side for the library view.
+
+### Data & Analytics
+- Store analytics in a database (Postgres/Supabase/etc.) instead of localStorage.
+- Record watch sessions not only on `onEnded`, but also on **route changes / tab close** (e.g., `visibilitychange`, `beforeunload`).
+- Add basic event validation and bot filtering if links are public.
+
+### Recording & Processing
+- Add MediaRecorder `mimeType` **fallback selection** (vp9 -> vp8 -> default) for broader browser support.
+- Consider recording to **IndexedDB** (or streaming to server) for long sessions and to avoid RAM pressure.
+- Offload heavy work to **Web Workers** where possible to keep UI responsive.
+
+### Product/Platform
+- Authentication + per-user storage quotas.
+- Server-side rate limits and abuse protection for public links.
+- Monitoring/telemetry (error reporting + performance traces).
+- Test coverage for `StorageService` and route-level behavior.
 
 ## Browser Compatibility
 
