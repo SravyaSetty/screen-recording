@@ -259,7 +259,7 @@ export default function VideoTrimmer({ videoBlob, onTrimComplete, onDurationLoad
     return (
         <div className="card space-y-6">
             <div className="flex items-center gap-3">
-                <div className="p-3 bg-gradient-to-br from-orange-500 to-orange-400 rounded-xl shadow-md">
+                <div className="p-3 bg-gradient-to-br from-brand-secondary to-brand-primary rounded-xl shadow-md">
                     <Scissors className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -270,7 +270,7 @@ export default function VideoTrimmer({ videoBlob, onTrimComplete, onDurationLoad
 
             {loading && (
                 <div className="flex items-center justify-center py-8">
-                    <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+                    <Loader2 className="w-8 h-8 text-brand-primary animate-spin" />
                     <span className="ml-3 text-gray-600">Loading video processor...</span>
                 </div>
             )}
@@ -302,7 +302,7 @@ export default function VideoTrimmer({ videoBlob, onTrimComplete, onDurationLoad
                             {/* Timeline indicator */}
                             <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-300">
                                 <div
-                                    className="h-full bg-blue-600 transition-all"
+                                    className="h-full bg-brand-primary transition-all"
                                     style={{ width: `${(currentTime / duration) * 100}%` }}
                                 />
                             </div>
@@ -313,7 +313,7 @@ export default function VideoTrimmer({ videoBlob, onTrimComplete, onDurationLoad
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
                                     <label className="text-sm font-semibold text-gray-700">Start Time</label>
-                                    <span className="text-blue-600 font-mono font-bold text-lg">{formatTime(trimSettings.startTime)}</span>
+                                    <span className="text-brand-primary font-mono font-bold text-lg">{formatTime(trimSettings.startTime)}</span>
                                 </div>
                                 <input
                                     type="range"
@@ -322,14 +322,14 @@ export default function VideoTrimmer({ videoBlob, onTrimComplete, onDurationLoad
                                     step={0.1}
                                     value={trimSettings.startTime}
                                     onChange={(e) => handleStartTimeChange(parseFloat(e.target.value))}
-                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
                                 />
                             </div>
 
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
                                     <label className="text-sm font-semibold text-gray-700">End Time</label>
-                                    <span className="text-orange-600 font-mono font-bold text-lg">{formatTime(trimSettings.endTime)}</span>
+                                    <span className="text-brand-secondary font-mono font-bold text-lg">{formatTime(trimSettings.endTime)}</span>
                                 </div>
                                 <input
                                     type="range"
@@ -338,7 +338,7 @@ export default function VideoTrimmer({ videoBlob, onTrimComplete, onDurationLoad
                                     step={0.1}
                                     value={trimSettings.endTime}
                                     onChange={(e) => handleEndTimeChange(parseFloat(e.target.value))}
-                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-secondary"
                                 />
                             </div>
 
@@ -351,14 +351,14 @@ export default function VideoTrimmer({ videoBlob, onTrimComplete, onDurationLoad
                         </div>
 
                         {trimming && (
-                            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                            <div className="bg-brand-primary/5 border border-brand-primary/20 rounded-xl p-4">
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="text-sm text-gray-700 font-medium">Processing video...</span>
-                                    <span className="text-sm font-semibold text-blue-600">{progress}%</span>
+                                    <span className="text-sm font-semibold text-brand-primary">{progress}%</span>
                                 </div>
                                 <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                                     <div
-                                        className="h-full bg-gradient-to-r from-blue-600 to-orange-500 transition-all duration-300"
+                                        className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary transition-all duration-300"
                                         style={{ width: `${progress}%` }}
                                     />
                                 </div>

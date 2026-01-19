@@ -68,7 +68,7 @@ export default function VideoUploader({ videoBlob, videoDuration }: VideoUploade
     return (
         <div className="card space-y-6">
             <div className="flex items-center gap-3">
-                <div className="p-3 bg-gradient-to-br from-green-600 to-emerald-500 rounded-xl shadow-md">
+                <div className="p-3 bg-gradient-to-br from-brand-secondary to-brand-primary rounded-xl shadow-md">
                     <Upload className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -85,12 +85,12 @@ export default function VideoUploader({ videoBlob, videoDuration }: VideoUploade
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all"
                             placeholder="Enter video title..."
                         />
                     </div>
 
-                    <div className="bg-gradient-to-br from-gray-50 to-blue-50 border border-gray-200 rounded-xl p-4 space-y-2">
+                    <div className="bg-brand-primary/5 border border-brand-primary/20 rounded-xl p-4 space-y-2">
                         <div className="flex items-center justify-between text-sm">
                             <span className="text-gray-600">File Size</span>
                             <span className="text-gray-900 font-semibold">{formatFileSize(videoBlob.size)}</span>
@@ -125,10 +125,10 @@ export default function VideoUploader({ videoBlob, videoDuration }: VideoUploade
                 </div>
             ) : (
                 <div className="space-y-4">
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6 space-y-4">
+                    <div className="bg-brand-primary/5 border border-brand-primary/20 rounded-xl p-6 space-y-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-green-100 rounded-full">
-                                <Check className="w-6 h-6 text-green-600" />
+                            <div className="p-2 bg-brand-secondary/20 rounded-full">
+                                <Check className="w-6 h-6 text-brand-secondary" />
                             </div>
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900">Upload Successful!</h3>
@@ -146,7 +146,7 @@ export default function VideoUploader({ videoBlob, videoDuration }: VideoUploade
                                         type="text"
                                         value={`${window.location.origin}${videoData?.shareUrl}`}
                                         readOnly
-                                        className="flex-1 px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="flex-1 px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-primary"
                                     />
                                     <button
                                         onClick={copyShareLink}

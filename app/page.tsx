@@ -30,21 +30,21 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50">
+        <div className="min-h-screen bg-brand-bg text-brand-dark">
             {/* Header */}
-            <header className="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+            <header className="border-b border-brand-primary/10 bg-brand-bg/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-gradient-to-br from-blue-600 to-blue-500 rounded-xl shadow-md">
+                            <div className="p-2 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-xl shadow-md">
                                 <Video className="w-6 h-6 text-white" />
                             </div>
-                            <h1 className="text-xl font-bold text-gray-900">Screen Recorder Pro</h1>
+                            <h1 className="text-xl font-bold text-brand-dark">Screen Recorder Pro</h1>
                         </div>
                         <nav className="flex items-center gap-4">
                             <Link
                                 href="/videos"
-                                className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 text-brand-primary hover:text-brand-dark hover:bg-brand-bg rounded-lg transition-colors"
                             >
                                 <List className="w-5 h-5" />
                                 My Videos
@@ -58,10 +58,10 @@ export default function Home() {
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Hero Section */}
                 <div className="text-center mb-12 animate-fade-in">
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-4xl md:text-5xl font-bold text-brand-dark mb-4">
                         Record, Trim & Share
                     </h2>
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-xl text-brand-primary/80 max-w-2xl mx-auto">
                         Professional screen recording with built-in trimming and instant sharing
                     </p>
                 </div>
@@ -69,41 +69,41 @@ export default function Home() {
                 {/* Workflow Steps */}
                 <div className="mb-8">
                     <div className="flex items-center justify-center gap-4 flex-wrap">
-                        <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${!recordedVideo ? 'bg-blue-100 border-2 border-blue-500' : 'bg-green-100 border-2 border-green-500'
+                        <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${!recordedVideo ? 'bg-brand-primary/10 border-2 border-brand-primary' : 'bg-brand-secondary/10 border-2 border-brand-secondary'
                             }`}>
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${!recordedVideo ? 'bg-blue-600 text-white' : 'bg-green-600 text-white'
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${!recordedVideo ? 'bg-brand-primary text-white' : 'bg-brand-secondary text-white'
                                 }`}>
                                 1
                             </div>
-                            <span className="text-gray-900 font-semibold">Record</span>
+                            <span className="text-brand-dark font-semibold">Record</span>
                         </div>
 
                         <div className="w-8 h-1 bg-gray-300 hidden sm:block" />
 
-                        <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${recordedVideo && !trimmedVideo ? 'bg-blue-100 border-2 border-blue-500' :
-                            trimmedVideo ? 'bg-green-100 border-2 border-green-500' :
+                        <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${recordedVideo && !trimmedVideo ? 'bg-brand-primary/10 border-2 border-brand-primary' :
+                            trimmedVideo ? 'bg-brand-secondary/10 border-2 border-brand-secondary' :
                                 'bg-gray-100 border-2 border-gray-300'
                             }`}>
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${recordedVideo && !trimmedVideo ? 'bg-blue-600 text-white' :
-                                trimmedVideo ? 'bg-green-600 text-white' :
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${recordedVideo && !trimmedVideo ? 'bg-brand-primary text-white' :
+                                trimmedVideo ? 'bg-brand-secondary text-white' :
                                     'bg-gray-400 text-white'
                                 }`}>
                                 2
                             </div>
-                            <span className={`font-semibold ${recordedVideo ? 'text-gray-900' : 'text-gray-500'}`}>
+                            <span className={`font-semibold ${recordedVideo ? 'text-brand-dark' : 'text-gray-500'}`}>
                                 Trim
                             </span>
                         </div>
 
                         <div className="w-8 h-1 bg-gray-300 hidden sm:block" />
 
-                        <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${trimmedVideo ? 'bg-blue-100 border-2 border-blue-500' : 'bg-gray-100 border-2 border-gray-300'
+                        <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${trimmedVideo ? 'bg-brand-primary/10 border-2 border-brand-primary' : 'bg-gray-100 border-2 border-gray-300'
                             }`}>
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${trimmedVideo ? 'bg-blue-600 text-white' : 'bg-gray-400 text-white'
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${trimmedVideo ? 'bg-brand-primary text-white' : 'bg-gray-400 text-white'
                                 }`}>
                                 3
                             </div>
-                            <span className={`font-semibold ${trimmedVideo ? 'text-gray-900' : 'text-gray-500'}`}>
+                            <span className={`font-semibold ${trimmedVideo ? 'text-brand-dark' : 'text-gray-500'}`}>
                                 Share
                             </span>
                         </div>

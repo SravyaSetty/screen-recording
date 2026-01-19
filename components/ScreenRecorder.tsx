@@ -216,7 +216,7 @@ export default function ScreenRecorder({ onRecordingComplete }: ScreenRecorderPr
     return (
         <div className="card space-y-6">
             <div className="flex items-center gap-3">
-                <div className="p-3 bg-gradient-to-br from-blue-600 to-blue-500 rounded-xl shadow-md">
+                <div className="p-3 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-xl shadow-md">
                     <Video className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -232,7 +232,7 @@ export default function ScreenRecorder({ onRecordingComplete }: ScreenRecorderPr
             )}
 
             {state.isRecording && (
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 space-y-4">
+                <div className="bg-brand-primary/5 border border-brand-primary/20 rounded-xl p-6 space-y-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="relative">
